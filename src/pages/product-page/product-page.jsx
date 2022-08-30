@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
+import ProductDetails from '../../components/product/product-details.component';
+import { Container } from '../../styles/common.styles';
 
 class ProductPage extends Component {
     render() {
         return (
-            <>
-                <h1>Product page</h1>
-            </>
+            <Container>
+                <ProductDetails />;
+            </Container>
         );
     }
 }

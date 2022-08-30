@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
+import CategoryDetails from '../../components/category/category-details.component';
+import { Container } from '../../styles/common.styles';
 
 class CategoryPage extends Component {
     render() {
         return (
-            <>
-                <h1>Category page</h1>
-            </>
+            <Container>
+                <CategoryDetails />
+            </Container>
         );
     }
 }
