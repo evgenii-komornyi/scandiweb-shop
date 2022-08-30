@@ -1,38 +1,38 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getCategoryNames } from '../../api/service';
+import { getProduct } from '../../api/service';
 
 const initialState = {
-    categories: [],
+    product: {},
     isLoaded: false,
     error: null,
 };
 
-export const fetchCategories = createAsyncThunk(
-    'categories/fetchCategories',
-    async () => {
-        const response = await getCategoryNames();
+export const fetchProductById = createAsyncThunk(
+    'product/fetchProductById',
+    async productId => {
+        const response = await getProduct(productId);
 
-        return response.data.data.categories;
+        return response.data.data.product;
     }
 );
 
 const reducer = createSlice({
-    name: 'categories',
+    name: 'product',
     initialState,
     reducers: {},
     extraReducers: {
-        [fetchCategories.pending]: (state, action) => {
+        [fetchProductById.pending]: (state, action) => {
             if (state.isLoaded) {
                 state.isLoaded = false;
             }
         },
-        [fetchCategories.fulfilled]: (state, { payload }) => {
+        [fetchProductById.fulfilled]: (state, { payload }) => {
             if (!state.isLoaded) {
                 state.isLoaded = true;
-                state.categories = payload;
+                state.product = payload;
             }
         },
-        [fetchCategories.rejected]: (state, action) => {
+        [fetchProductById.rejected]: (state, action) => {
             if (state.isLoaded) {
                 state.isLoaded = false;
                 state.error = action.error;
@@ -41,4 +41,4 @@ const reducer = createSlice({
     },
 });
 
-export const categoriesReducer = reducer.reducer;
+export const productReducer = reducer.reducer;

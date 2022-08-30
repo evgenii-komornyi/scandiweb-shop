@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
+import ProductsList from '../../components/products/products-list.component';
 import { Container } from '../../styles/common.styles';
 
-class CartPage extends Component {
+class MainPage extends Component {
     render() {
         return (
             <Container>
-                <h1>Cart page</h1>
+                <ProductsList />
             </Container>
         );
     }
 }
 
-export default CartPage;
+export default MainPage;
