@@ -10,7 +10,7 @@ export const AddToCartButtonContainer = styled.div`
     background-color: #56e180;
     border-radius: 50%;
     cursor: pointer;
-    bottom: 55px;
+    bottom: 85px;
     right: 80px;
 
     &:hover {

@@ -5,6 +5,14 @@ import { compose } from '@reduxjs/toolkit';
 import { withRouter } from '../../utils/withRouter';
 import { fetchCategoryByName } from '../../redux/categories/category.reducer';
 
+import ProductItem from '../product-item/product-item.component';
+
+import {
+    CategoryTitle,
+    ProductsContainer,
+    CategoryItemsContainer,
+} from '../products/products-list.styles';
+
 class CategoryDetails extends Component {
     componentDidMount() {
         this.props.fetchCategoryByName(this.props.params.category);
@@ -23,12 +31,20 @@ class CategoryDetails extends Component {
             <>
                 {isLoaded ? (
                     <>
-                        <h1>{category.name}</h1>
-                        <ul>
-                            {category.products.map(product => (
-                                <li key={product.id}>{product.name}</li>
-                            ))}
-                        </ul>
+                        <CategoryTitle>{category.name}</CategoryTitle>
+                        <ProductsContainer>
+                            <CategoryItemsContainer>
+                                {category.products
+                                    .filter((_, index) => index < 6)
+                                    .map(product => (
+                                        <ProductItem
+                                            key={product.id}
+                                            product={product}
+                                            category={category.name}
+                                        />
+                                    ))}
+                            </CategoryItemsContainer>
+                        </ProductsContainer>
                     </>
                 ) : (
                     <h1>Loading...</h1>

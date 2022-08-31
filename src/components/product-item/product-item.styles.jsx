@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const ProductItemContainer = styled.div`
     width: 33.333vw;
     display: flex;
-    padding: 20px;
+    padding: 20px 20px 50px;
     flex-direction: column;
     height: 350px;
     align-items: center;
@@ -45,7 +45,6 @@ export const ProductFooterContainer = styled.div`
 `;
 
 export const NameContainer = styled.span`
-    font-family: 'Raleway', sans-serif;
     font-weight: 300;
     margin-top: 10px;
     margin-bottom: 15px;
@@ -54,7 +53,6 @@ export const NameContainer = styled.span`
 
 export const PriceContainer = styled.span`
     color: '#222';
-    font-family: 'Raleway', sans-serif;
     font-weight: 700;
     padding-left: 40px;
 `;

@@ -14,7 +14,7 @@ export class Price extends Component {
 
         return (
             <>
-                {convertedPrice.amount} {convertedPrice.currency.symbol}
+                {convertedPrice.currency.symbol} {convertedPrice.amount}
             </>
         );
     }

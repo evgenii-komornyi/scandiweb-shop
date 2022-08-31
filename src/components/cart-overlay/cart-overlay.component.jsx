@@ -10,14 +10,17 @@ import {
 class CartOverlay extends Component {
     render() {
         const { isOpen, items, total } = this.props.cart;
+        console.log(total);
         return (
             <>
                 <CartOverlayContainer isOpen={isOpen}>
                     <MiniCartContainer>
                         {items.length > 0 ? (
                             <>
-                                {items.map(({ id, item }) => (
-                                    <MiniCartItem key={id}>{item}</MiniCartItem>
+                                {items.map(({ id, name, prices, quantity }) => (
+                                    <MiniCartItem key={id}>
+                                        {name} quantity: {quantity}
+                                    </MiniCartItem>
                                 ))}
                                 <div className="totalContainer">
                                     <h3>Total:</h3>

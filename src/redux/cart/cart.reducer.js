@@ -1,12 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { addItemToCart, calculateTotalPrice } from '../../helpers/cart.helper';
 
 const initialState = {
     isOpen: false,
-    items: [
-        { id: 0, item: 'item0' },
-        { id: 1, item: 'item1' },
-        { id: 2, item: 'item2' },
-    ],
+    items: [],
     total: 0,
 };
 
@@ -15,15 +12,20 @@ const reducer = createSlice({
     initialState,
     reducers: {
         setIsCartOpen: state => {
+            return { ...state, isOpen: !state.isOpen };
+        },
+        addItem: (state, { payload }) => {
             state = {
                 ...state,
-                isOpen: !state.isOpen,
+                items: addItemToCart(state.items, payload),
             };
+
+            state.total = calculateTotalPrice(state.items);
 
             return state;
         },
     },
 });
 
-export const { setIsCartOpen } = reducer.actions;
+export const { setIsCartOpen, addItem } = reducer.actions;
 export const cartReducer = reducer.reducer;

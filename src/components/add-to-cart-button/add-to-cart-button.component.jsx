@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 
 import CartSrc from '../../img/add-to-cart-button.png';
 import {
@@ -9,16 +8,19 @@ import {
 
 export class AddToCartButton extends Component {
     render() {
+        const { product, handleAddItemToCart } = this.props;
+
         return (
-            <AddToCartButtonContainer>
+            <AddToCartButtonContainer
+                onClick={e => {
+                    handleAddItemToCart(product);
+                    e.stopPropagation();
+                }}
+            >
                 <CartImage src={CartSrc} alt="cart" />
             </AddToCartButtonContainer>
         );
     }
 }
 
-const mapStateToProps = state => ({});
-
-const mapDispatchToProps = {};
-
-export default connect(mapStateToProps, mapDispatchToProps)(AddToCartButton);
+export default AddToCartButton;

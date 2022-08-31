@@ -33,6 +33,7 @@ class ProductsList extends Component {
                                             key={product.id}
                                             product={product}
                                             category={category.name}
+                                            isMainPage={true}
                                         />
                                     ))}
                             </CategoryItemsContainer>
