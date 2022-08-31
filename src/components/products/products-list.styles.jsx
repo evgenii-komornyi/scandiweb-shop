@@ -7,6 +7,7 @@ export const ProductsContainer = styled.div`
 `;
 
 export const CategoryTitle = styled.h2`
+    font-family: 'Raleway';
     font-size: 38px;
     margin-bottom: 30px;
     text-indent: 40px;

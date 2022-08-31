@@ -45,9 +45,16 @@ export const ProductFooterContainer = styled.div`
 `;
 
 export const NameContainer = styled.span`
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    margin-top: 10px;
     margin-bottom: 15px;
+    padding-left: 40px;
 `;
 
 export const PriceContainer = styled.span`
     color: '#222';
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    padding-left: 40px;
 `;
