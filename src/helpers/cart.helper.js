@@ -14,9 +14,9 @@ export const addItemToCart = (cartItems, cartItemToAdd) => {
     return [...cartItems, { ...cartItemToAdd, quantity: 1 }];
 };
 
-export const calculateTotalPrice = cartItems =>
+export const calculateTotalPrice = (cartItems, correctPrice) =>
     cartItems.reduce(
         (accumalatedQuantity, cartItem) =>
-            accumalatedQuantity + cartItem.quantity * cartItem.prices[0].amount,
+            accumalatedQuantity + cartItem.quantity * correctPrice,
         0
     );

@@ -7,16 +7,17 @@ import {
 } from './add-to-cart-button.styles';
 
 export class AddToCartButton extends Component {
-    render() {
+    addItemToCart = e => {
         const { product, handleAddItemToCart } = this.props;
 
+        handleAddItemToCart(product);
+
+        e.stopPropagation();
+    };
+
+    render() {
         return (
-            <AddToCartButtonContainer
-                onClick={e => {
-                    handleAddItemToCart(product);
-                    e.stopPropagation();
-                }}
-            >
+            <AddToCartButtonContainer onClick={this.addItemToCart}>
                 <CartImage src={CartSrc} alt="cart" />
             </AddToCartButtonContainer>
         );

@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { calculateTotalPrice } from '../../helpers/cart.helper';
+import { convertPrice } from '../../helpers/price.helper';
+import Price from '../price/price.component';
 
 import {
     CartOverlayContainer,
@@ -9,22 +12,35 @@ import {
 
 class CartOverlay extends Component {
     render() {
-        const { isOpen, items, total } = this.props.cart;
-        console.log(total);
+        const {
+            cart: { isOpen, items },
+            currencies: { currentCurrency },
+        } = this.props;
+
+        const convertedPrice =
+            items.length &&
+            items.map(item => convertPrice(item.prices, currentCurrency));
+
         return (
             <>
                 <CartOverlayContainer isOpen={isOpen}>
                     <MiniCartContainer>
                         {items.length > 0 ? (
                             <>
-                                {items.map(({ id, name, prices, quantity }) => (
+                                {items.map(({ id, name, quantity }) => (
                                     <MiniCartItem key={id}>
                                         {name} quantity: {quantity}
                                     </MiniCartItem>
                                 ))}
                                 <div className="totalContainer">
                                     <h3>Total:</h3>
-                                    <h3>{total}</h3>
+                                    <Price>
+                                        {convertedPrice[0][1]}{' '}
+                                        {calculateTotalPrice(
+                                            items,
+                                            convertedPrice[0][0]
+                                        )}
+                                    </Price>
                                 </div>
                                 <div>
                                     <button>view bag</button>
@@ -43,6 +59,7 @@ class CartOverlay extends Component {
 
 const mapStateToProps = state => ({
     cart: state.cart,
+    currencies: state.currencies,
 });
 
 export default connect(mapStateToProps)(CartOverlay);

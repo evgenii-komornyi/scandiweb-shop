@@ -9,6 +9,8 @@ import { withRouter } from '../../utils/withRouter';
 import { AddToCartButton } from '../add-to-cart-button/add-to-cart-button.component';
 import Price from '../price/price.component';
 
+import { convertPrice } from '../../helpers/price.helper';
+
 import {
     ProductItemContainer,
     BackgroundImage,
@@ -25,7 +27,13 @@ class ProductItem extends Component {
             category,
             isMainPage = false,
             addItem,
+            currencies: { currentCurrency },
         } = this.props;
+
+        const [correctPrice, correctSymbol] = convertPrice(
+            prices,
+            currentCurrency
+        );
 
         return (
             <ProductItemContainer
@@ -37,7 +45,9 @@ class ProductItem extends Component {
                 <ProductFooterContainer>
                     <NameContainer>{name}</NameContainer>
                     <PriceContainer>
-                        <Price prices={prices} />
+                        <Price>
+                            {correctSymbol} {correctPrice}
+                        </Price>
                     </PriceContainer>
                 </ProductFooterContainer>
                 {attributes.length === 0 && (
@@ -48,6 +58,7 @@ class ProductItem extends Component {
                             prices,
                             gallery,
                             attributes,
+                            correctPrice,
                         }}
                         handleAddItemToCart={addItem}
                     />
@@ -57,11 +68,15 @@ class ProductItem extends Component {
     }
 }
 
+const mapStateToProps = state => ({
+    currencies: state.currencies,
+});
+
 const mapDispatchToProps = dispatch => ({
     addItem: product => dispatch(addItem(product)),
 });
 
 export default compose(
     withRouter,
-    connect(null, mapDispatchToProps)
+    connect(mapStateToProps, mapDispatchToProps)
 )(ProductItem);

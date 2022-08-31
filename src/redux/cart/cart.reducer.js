@@ -1,10 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { addItemToCart, calculateTotalPrice } from '../../helpers/cart.helper';
+import { addItemToCart } from '../../helpers/cart.helper';
 
 const initialState = {
     isOpen: false,
     items: [],
-    total: 0,
 };
 
 const reducer = createSlice({
@@ -19,8 +18,6 @@ const reducer = createSlice({
                 ...state,
                 items: addItemToCart(state.items, payload),
             };
-
-            state.total = calculateTotalPrice(state.items);
 
             return state;
         },
