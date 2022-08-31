@@ -22,22 +22,22 @@ class ProductsList extends Component {
         return (
             <>
                 {isLoaded ? (
-                    <ProductsContainer>
-                        <CategoryTitle>
-                            {category.name.toUpperCase()}
-                        </CategoryTitle>
-                        <CategoryItemsContainer>
-                            {category.products
-                                .filter((_, index) => index < 6)
-                                .map(product => (
-                                    <ProductItem
-                                        key={product.id}
-                                        product={product}
-                                        category={category.name}
-                                    />
-                                ))}
-                        </CategoryItemsContainer>
-                    </ProductsContainer>
+                    <>
+                        <CategoryTitle>{category.name}</CategoryTitle>
+                        <ProductsContainer>
+                            <CategoryItemsContainer>
+                                {category.products
+                                    .filter((_, index) => index < 6)
+                                    .map(product => (
+                                        <ProductItem
+                                            key={product.id}
+                                            product={product}
+                                            category={category.name}
+                                        />
+                                    ))}
+                            </CategoryItemsContainer>
+                        </ProductsContainer>
+                    </>
                 ) : (
                     <h1>Loading...</h1>
                 )}

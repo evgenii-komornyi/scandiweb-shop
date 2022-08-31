@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+import { setIsCartOpen } from '../../redux/cart/cart.reducer';
 
 import CartSrc from '../../img/empty_cart.png';
 import CartOverlay from '../cart-overlay/cart-overlay.component';
@@ -10,31 +13,27 @@ import {
 } from './cart-button.styles';
 
 class CartButton extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            isOpen: false,
-        };
-    }
-
     render() {
-        const cartItems = [
-            { id: 0, item: 'item1' },
-            { id: 2, item: 'item2' },
-        ];
+        const { items } = this.props.cart;
 
         return (
-            <CartButtonContainer
-                onClick={() => this.setState({ isOpen: !this.state.isOpen })}
-            >
+            <CartButtonContainer onClick={() => this.props.setIsCartOpen()}>
                 <CartImage src={CartSrc} alt="cart" />
-                {cartItems.length > 0 && (
-                    <ProductsCount>{cartItems.length}</ProductsCount>
+                {items.length > 0 && (
+                    <ProductsCount>{items.length}</ProductsCount>
                 )}
-                <CartOverlay isOpen={this.state.isOpen} />
+                <CartOverlay />
             </CartButtonContainer>
         );
     }
 }
 
-export default CartButton;
+const mapStateToProps = state => ({
+    cart: state.cart,
+});
+
+const mapDispatchToProps = dispatch => ({
+    setIsCartOpen: () => dispatch(setIsCartOpen()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CartButton);

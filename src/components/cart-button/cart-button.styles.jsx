@@ -6,9 +6,9 @@ export const CartButtonContainer = styled.div`
 `;
 
 export const CartImage = styled.img`
-    position: relative;
+    position: absolute;
     width: 30px;
-    top: 10px;
+    top: 35px;
     padding: 0 3px;
     cursor: pointer;
 `;
@@ -16,14 +16,12 @@ export const CartImage = styled.img`
 export const ProductsCount = styled.span`
     position: relative;
     text-align: center;
-    padding: 3px 7px;
-    font-family: Roboto;
-    font-weight: 700;
-    font-size: 14px;
+    padding: 3px 6px;
+    font-size: 10px;
     line-height: 16px;
     color: #ffffff;
     background-color: #1d1f22;
     border-radius: 50%;
-    top: -5px;
+    top: -7px;
     right: -20px;
 `;

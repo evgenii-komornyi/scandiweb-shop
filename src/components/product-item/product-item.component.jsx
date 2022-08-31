@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import { withRouter } from '../../utils/withRouter';
+import { AddToCartButton } from '../add-to-cart-button/add-to-cart-button.component';
 
 import Price from '../price/price.component';
 
@@ -15,7 +16,7 @@ import {
 class ProductItem extends Component {
     render() {
         const {
-            product: { id, gallery, name, prices },
+            product: { id, gallery, name, prices, attributes },
             navigate,
             category,
         } = this.props;
@@ -29,6 +30,7 @@ class ProductItem extends Component {
                         <Price prices={prices} />
                     </PriceContainer>
                 </ProductFooterContainer>
+                {attributes.length > 0 && <AddToCartButton />}
             </ProductItemContainer>
         );
     }
