@@ -1,7 +1,10 @@
 export const convertPrice = (prices, currentCurrency) => {
-    const convertedPrice = prices.find(
+    const correctPrice = prices.find(
         price => price.currency.label === currentCurrency
     );
 
-    return [convertedPrice.amount, convertedPrice.currency.symbol];
+    return {
+        correctPrice: correctPrice.amount,
+        correctSymbol: correctPrice.currency.symbol,
+    };
 };

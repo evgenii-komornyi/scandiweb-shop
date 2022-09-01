@@ -14,9 +14,24 @@ export const addItemToCart = (cartItems, cartItemToAdd) => {
     return [...cartItems, { ...cartItemToAdd, quantity: 1 }];
 };
 
-export const calculateTotalPrice = (cartItems, correctPrice) =>
-    cartItems.reduce(
-        (accumalatedQuantity, cartItem) =>
-            accumalatedQuantity + cartItem.quantity * correctPrice,
+export const calculateTotalPrice = (cartItems, currentCurrency) => {
+    const quantities = cartItems.map(({ quantity }) => quantity);
+
+    const itemPrices = cartItems.map(({ prices }) =>
+        prices
+            .filter(
+                price =>
+                    price.currency.label === currentCurrency && price.amount
+            )
+            .reduce(
+                (accumulatedPrice, price) => accumulatedPrice + price.amount,
+                0
+            )
+    );
+
+    return itemPrices.reduce(
+        (accumulatedQuantity, cartItem, index) =>
+            accumulatedQuantity + cartItem * quantities[index],
         0
     );
+};

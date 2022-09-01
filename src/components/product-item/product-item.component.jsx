@@ -30,10 +30,7 @@ class ProductItem extends Component {
             currencies: { currentCurrency },
         } = this.props;
 
-        const [correctPrice, correctSymbol] = convertPrice(
-            prices,
-            currentCurrency
-        );
+        const convertedPrice = convertPrice(prices, currentCurrency);
 
         return (
             <ProductItemContainer
@@ -46,7 +43,8 @@ class ProductItem extends Component {
                     <NameContainer>{name}</NameContainer>
                     <PriceContainer>
                         <Price>
-                            {correctSymbol} {correctPrice}
+                            {convertedPrice.correctSymbol}{' '}
+                            {convertedPrice.correctPrice}
                         </Price>
                     </PriceContainer>
                 </ProductFooterContainer>
@@ -58,7 +56,7 @@ class ProductItem extends Component {
                             prices,
                             gallery,
                             attributes,
-                            correctPrice,
+                            correctPrice: convertedPrice.correctPrice,
                         }}
                         handleAddItemToCart={addItem}
                     />

@@ -27,18 +27,43 @@ class CartOverlay extends Component {
                     <MiniCartContainer>
                         {items.length > 0 ? (
                             <>
-                                {items.map(({ id, name, quantity }) => (
+                                {items.map(({ id, name, quantity }, index) => (
                                     <MiniCartItem key={id}>
-                                        {name} quantity: {quantity}
+                                        <div className="itemName">{name}</div>
+                                        <div className="quantityContainer">
+                                            <button
+                                                onClick={e =>
+                                                    e.stopPropagation()
+                                                }
+                                            >
+                                                +
+                                            </button>
+                                            {quantity}
+                                            <button
+                                                onClick={e =>
+                                                    e.stopPropagation()
+                                                }
+                                            >
+                                                -
+                                            </button>
+                                        </div>
+                                        <Price>
+                                            {
+                                                convertedPrice[index]
+                                                    .correctSymbol
+                                            }{' '}
+                                            {convertedPrice[index]
+                                                .correctPrice * quantity}
+                                        </Price>
                                     </MiniCartItem>
                                 ))}
                                 <div className="totalContainer">
                                     <h3>Total:</h3>
                                     <Price>
-                                        {convertedPrice[0][1]}{' '}
+                                        {convertedPrice[0].correctSymbol}{' '}
                                         {calculateTotalPrice(
                                             items,
-                                            convertedPrice[0][0]
+                                            currentCurrency
                                         )}
                                     </Price>
                                 </div>
