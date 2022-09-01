@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { calculateTotalPrice } from '../../helpers/cart.helper';
 import { convertPrice } from '../../helpers/price.helper';
+import CartItem from '../cart-item/cart-item.component';
 import Price from '../price/price.component';
 
 import {
@@ -27,44 +28,25 @@ class CartOverlay extends Component {
                     <MiniCartContainer>
                         {items.length > 0 ? (
                             <>
-                                {items.map(({ id, name, quantity }, index) => (
-                                    <MiniCartItem key={id}>
-                                        <div className="itemName">{name}</div>
-                                        <div className="quantityContainer">
-                                            <button
-                                                onClick={e =>
-                                                    e.stopPropagation()
-                                                }
-                                            >
-                                                +
-                                            </button>
-                                            {quantity}
-                                            <button
-                                                onClick={e =>
-                                                    e.stopPropagation()
-                                                }
-                                            >
-                                                -
-                                            </button>
-                                        </div>
-                                        <Price>
-                                            {
-                                                convertedPrice[index]
-                                                    .correctSymbol
-                                            }{' '}
-                                            {convertedPrice[index]
-                                                .correctPrice * quantity}
-                                        </Price>
+                                {items.map((item, index) => (
+                                    <MiniCartItem key={item.id}>
+                                        <CartItem
+                                            item={item}
+                                            index={index}
+                                            convertedPrice={convertedPrice}
+                                        />
                                     </MiniCartItem>
                                 ))}
                                 <div className="totalContainer">
                                     <h3>Total:</h3>
                                     <Price>
                                         {convertedPrice[0].correctSymbol}{' '}
-                                        {calculateTotalPrice(
-                                            items,
-                                            currentCurrency
-                                        )}
+                                        {Math.round(
+                                            calculateTotalPrice(
+                                                items,
+                                                currentCurrency
+                                            ) * 100
+                                        ) / 100}
                                     </Price>
                                 </div>
                                 <div>
