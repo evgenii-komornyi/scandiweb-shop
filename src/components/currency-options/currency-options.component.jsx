@@ -24,7 +24,7 @@ export class CurrencyOptions extends Component {
             <Select name="currency" onChange={this.onCurrencyChange}>
                 {currencies.map(currency => (
                     <Option value={currency.label} key={currency.label}>
-                        {currency.symbol} {currency.label}
+                        {currency.symbol}
                     </Option>
                 ))}
             </Select>

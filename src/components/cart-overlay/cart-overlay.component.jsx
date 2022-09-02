@@ -1,14 +1,25 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { calculateTotalPrice } from '../../helpers/cart.helper';
+import { withRouter } from '../../utils/withRouter';
+
+import {
+    calculateTotalPrice,
+    calculateItemsCount,
+} from '../../helpers/cart.helper';
 import { convertPrice } from '../../helpers/price.helper';
+
 import CartItem from '../cart-item/cart-item.component';
 import Price from '../price/price.component';
+import CustomButton from '../custom-button/custom-button.component';
 
 import {
     CartOverlayContainer,
-    MiniCartContainer,
-    MiniCartItem,
+    CartContainer,
+    CartHeader,
+    ItemsContainer,
+    CartFooter,
+    TotalContainer,
+    ButtonsContainer,
 } from './cart-overlay.styles';
 
 class CartOverlay extends Component {
@@ -16,6 +27,7 @@ class CartOverlay extends Component {
         const {
             cart: { isOpen, items },
             currencies: { currentCurrency },
+            navigate,
         } = this.props;
 
         const convertedPrice =
@@ -25,39 +37,62 @@ class CartOverlay extends Component {
         return (
             <>
                 <CartOverlayContainer isOpen={isOpen}>
-                    <MiniCartContainer>
+                    <CartContainer>
                         {items.length > 0 ? (
                             <>
-                                {items.map((item, index) => (
-                                    <MiniCartItem key={item.id}>
+                                <CartHeader>
+                                    {calculateItemsCount(items)}
+                                </CartHeader>
+                                <ItemsContainer>
+                                    {items.map((item, index) => (
                                         <CartItem
+                                            key={item.id}
                                             item={item}
                                             index={index}
                                             convertedPrice={convertedPrice}
                                         />
-                                    </MiniCartItem>
-                                ))}
-                                <div className="totalContainer">
-                                    <h3>Total:</h3>
-                                    <Price>
-                                        {convertedPrice[0].correctSymbol}{' '}
-                                        {Math.round(
-                                            calculateTotalPrice(
-                                                items,
-                                                currentCurrency
-                                            ) * 100
-                                        ) / 100}
-                                    </Price>
-                                </div>
-                                <div>
-                                    <button>view bag</button>
-                                    <button>Checkout</button>
-                                </div>
+                                    ))}
+                                </ItemsContainer>
+                                <CartFooter>
+                                    <TotalContainer>
+                                        <h3>Total:</h3>
+                                        <Price>
+                                            <h3>
+                                                {
+                                                    convertedPrice[0]
+                                                        .correctSymbol
+                                                }{' '}
+                                                {Math.round(
+                                                    calculateTotalPrice(
+                                                        items,
+                                                        currentCurrency
+                                                    ) * 100
+                                                ) / 100}
+                                            </h3>
+                                        </Price>
+                                    </TotalContainer>
+                                    <ButtonsContainer>
+                                        <CustomButton
+                                            onClick={() => navigate('/cart')}
+                                            inverted
+                                        >
+                                            View Bag
+                                        </CustomButton>
+                                        <CustomButton
+                                            onClick={() => {
+                                                alert('Checkout');
+                                                navigate('/cart');
+                                            }}
+                                        >
+                                            Checkout
+                                        </CustomButton>
+                                    </ButtonsContainer>
+                                </CartFooter>
                             </>
                         ) : (
                             <h6>Cart is empty.</h6>
                         )}
-                    </MiniCartContainer>
+                    </CartContainer>
                 </CartOverlayContainer>
             </>
         );
@@ -69,4 +104,4 @@ const mapStateToProps = state => ({
     currencies: state.currencies,
 });
 
-export default connect(mapStateToProps)(CartOverlay);
+export default withRouter(connect(mapStateToProps)(CartOverlay));

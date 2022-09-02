@@ -3,9 +3,13 @@ import { connect } from 'react-redux';
 import { compose } from '@reduxjs/toolkit';
 import { withRouter } from '../../utils/withRouter';
 
+import { convertPrice } from '../../helpers/price.helper';
+
 import Price from '../price/price.component';
+import CustomButton from '../custom-button/custom-button.component';
 
 import { fetchProductById } from '../../redux/products/product.reducer';
+import { addItem } from '../../redux/cart/cart.reducer';
 
 class ProductDetails extends Component {
     componentDidMount() {
@@ -19,14 +23,33 @@ class ProductDetails extends Component {
     }
 
     render() {
-        const { product, isLoaded } = this.props.product;
+        const {
+            product: { product },
+            currencies: { currentCurrency },
+            addItem,
+        } = this.props;
+
+        const isProductLoaded = this.props.product.isLoaded;
+        const isCurrenciesLoaded = this.props.currencies.isLoaded;
 
         return (
             <>
-                {isLoaded ? (
+                {isProductLoaded && isCurrenciesLoaded ? (
                     <>
                         <h1>{product.name}</h1>
-                        <Price prices={product?.prices} />
+                        {
+                            convertPrice(product.prices, currentCurrency)
+                                .correctSymbol
+                        }
+                        <Price>
+                            {
+                                convertPrice(product.prices, currentCurrency)
+                                    .correctPrice
+                            }
+                        </Price>
+                        <CustomButton onClick={() => addItem(product)}>
+                            Add to cart
+                        </CustomButton>
                     </>
                 ) : (
                     <h1>Loading...</h1>
@@ -38,10 +61,12 @@ class ProductDetails extends Component {
 
 const mapStateToProps = state => ({
     product: state.product,
+    currencies: state.currencies,
 });
 
 const mapDispatchToProps = dispatch => ({
     fetchProductById: productId => dispatch(fetchProductById(productId)),
+    addItem: product => dispatch(addItem(product)),
 });
 
 export default compose(

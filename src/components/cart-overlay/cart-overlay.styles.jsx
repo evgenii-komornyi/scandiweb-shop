@@ -6,28 +6,59 @@ export const CartOverlayContainer = styled.div`
     background-color: rgba(0, 0, 0, 0.4);
     position: fixed;
     z-index: 9998;
-    top: 0;
+    top: 75px;
+    cursor: default;
     left: 0;
     display: ${props => (props.isOpen ? 'block' : 'none')};
 `;
 
-export const MiniCartContainer = styled.div`
-    width: 300px;
+export const CartContainer = styled.div`
+    width: 350px;
     height: 50vh;
     background-color: #fff;
     position: relative;
-    top: 76px;
-    left: 70%;
-    padding: 20px;
+    left: 68%;
+    padding: 20px 0 20px 20px;
     z-index: 9999;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    align-content: center;
-    align-items: flex-start;
 `;
 
-export const MiniCartItem = styled.div`
-    padding: 5px 5px;
-    margin: 5px;
+export const CartHeader = styled.div`
+    font-size: 12px;
+    font-weight: bold;
+`;
+
+export const ItemsContainer = styled.div`
+    overflow-y: scroll;
+    padding: 0 10px;
+
+    ::-webkit-scrollbar {
+        width: 14px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        border: 4px solid rgba(0, 0, 0, 0);
+        background-clip: padding-box;
+        border-radius: 9999px;
+        background-color: #aaaaaa;
+    }
+`;
+
+export const CartFooter = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+`;
+
+export const TotalContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    padding-right: 20px;
+`;
+
+export const ButtonsContainer = styled.div`
+    display: flex;
+    justify-content: space-around;
+    padding-right: 20px;
 `;

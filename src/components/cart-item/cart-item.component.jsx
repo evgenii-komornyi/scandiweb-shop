@@ -4,7 +4,15 @@ import { addItem, removeItem } from '../../redux/cart/cart.reducer';
 
 import Price from '../price/price.component';
 
-import { CartItemContainer } from './cart-item.styles';
+import {
+    CartItemContainer,
+    CartItemDescriptionContainer,
+    ItemName,
+    PriceContainer,
+    QuantityContainer,
+    ImageContainer,
+    Image,
+} from './cart-item.styles';
 
 class CartItem extends Component {
     render() {
@@ -12,8 +20,20 @@ class CartItem extends Component {
 
         return (
             <CartItemContainer>
-                <div className="itemName">{item.name}</div>
-                <div className="quantityContainer">
+                <CartItemDescriptionContainer>
+                    <ItemName>{item.name}</ItemName>
+                    <PriceContainer>
+                        <Price>
+                            {convertedPrice[index].correctSymbol}
+                            {Math.round(
+                                convertedPrice[index].correctPrice *
+                                    item.quantity *
+                                    100
+                            ) / 100}
+                        </Price>
+                    </PriceContainer>
+                </CartItemDescriptionContainer>
+                <QuantityContainer>
                     <button
                         onClick={e => {
                             addItem(item);
@@ -31,13 +51,10 @@ class CartItem extends Component {
                     >
                         -
                     </button>
-                </div>
-                <Price>
-                    {convertedPrice[index].correctSymbol}{' '}
-                    {Math.round(
-                        convertedPrice[index].correctPrice * item.quantity * 100
-                    ) / 100}
-                </Price>
+                </QuantityContainer>
+                <ImageContainer>
+                    <Image src={item.gallery[0]} alt={item.name} />
+                </ImageContainer>
             </CartItemContainer>
         );
     }

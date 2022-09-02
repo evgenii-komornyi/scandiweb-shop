@@ -53,3 +53,12 @@ export const calculateTotalPrice = (cartItems, currentCurrency) => {
         0
     );
 };
+
+export const calculateItemsCount = items => {
+    const itemsCount = items.reduce(
+        (accumulatedCount, item) => accumulatedCount + item.quantity,
+        0
+    );
+
+    return `My Bag: ${itemsCount} ${itemsCount === 1 ? 'item' : 'items'}`;
+};

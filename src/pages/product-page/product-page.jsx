@@ -6,7 +6,7 @@ class ProductPage extends Component {
     render() {
         return (
             <Container>
-                <ProductDetails />;
+                <ProductDetails />
             </Container>
         );
     }

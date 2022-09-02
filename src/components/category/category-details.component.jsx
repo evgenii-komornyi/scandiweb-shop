@@ -34,15 +34,13 @@ class CategoryDetails extends Component {
                         <CategoryTitle>{category.name}</CategoryTitle>
                         <ProductsContainer>
                             <CategoryItemsContainer>
-                                {category.products
-                                    .filter((_, index) => index < 6)
-                                    .map(product => (
-                                        <ProductItem
-                                            key={product.id}
-                                            product={product}
-                                            category={category.name}
-                                        />
-                                    ))}
+                                {category.products.map(product => (
+                                    <ProductItem
+                                        key={product.id}
+                                        product={product}
+                                        category={category.name}
+                                    />
+                                ))}
                             </CategoryItemsContainer>
                         </ProductsContainer>
                     </>
