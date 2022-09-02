@@ -4,8 +4,6 @@ import { convertPrice } from '../../helpers/price.helper';
 
 import CartItem from '../cart-item/cart-item.component';
 
-import { ItemsContainer } from '../cart-overlay/cart-overlay.styles';
-
 export class Cart extends Component {
     render() {
         const {
@@ -17,18 +15,14 @@ export class Cart extends Component {
             items.length &&
             items.map(item => convertPrice(item.prices, currentCurrency));
 
-        return (
-            <ItemsContainer>
-                {items.map((item, index) => (
-                    <CartItem
-                        key={item.id}
-                        item={item}
-                        index={index}
-                        convertedPrice={convertedPrice}
-                    />
-                ))}
-            </ItemsContainer>
-        );
+        return items.map((item, index) => (
+            <CartItem
+                key={item.id}
+                item={item}
+                index={index}
+                convertedPrice={convertedPrice}
+            />
+        ));
     }
 }
 

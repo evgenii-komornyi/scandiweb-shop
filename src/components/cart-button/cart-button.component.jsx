@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 
 import { setIsCartOpen } from '../../redux/cart/cart.reducer';
 
+import { calculateItemsCount } from '../../helpers/cart.helper';
+
 import CartSrc from '../../img/empty_cart.png';
 import CartOverlay from '../cart-overlay/cart-overlay.component';
 
@@ -20,7 +22,7 @@ class CartButton extends Component {
             <CartButtonContainer onClick={() => this.props.setIsCartOpen()}>
                 <CartImage src={CartSrc} alt="cart" />
                 {items.length > 0 && (
-                    <ProductsCount>{items.length}</ProductsCount>
+                    <ProductsCount>{calculateItemsCount(items)}</ProductsCount>
                 )}
                 <CartOverlay />
             </CartButtonContainer>

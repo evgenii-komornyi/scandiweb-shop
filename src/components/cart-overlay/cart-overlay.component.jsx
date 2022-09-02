@@ -34,6 +34,8 @@ class CartOverlay extends Component {
             items.length &&
             items.map(item => convertPrice(item.prices, currentCurrency));
 
+        const itemsCount = calculateItemsCount(items);
+
         return (
             <>
                 <CartOverlayContainer isOpen={isOpen}>
@@ -41,7 +43,9 @@ class CartOverlay extends Component {
                         {items.length > 0 ? (
                             <>
                                 <CartHeader>
-                                    {calculateItemsCount(items)}
+                                    {`My Bag: ${itemsCount} ${
+                                        itemsCount === 1 ? 'item' : 'items'
+                                    }`}
                                 </CartHeader>
                                 <ItemsContainer>
                                     {items.map((item, index) => (
