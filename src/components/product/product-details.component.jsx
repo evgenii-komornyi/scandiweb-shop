@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from '@reduxjs/toolkit';
 import { withRouter } from '../../utils/withRouter';
-
-import { convertPrice } from '../../helpers/price.helper';
+import DOMPurify from 'dompurify';
 
 import CustomButton from '../custom-button/custom-button.component';
 
@@ -26,15 +25,47 @@ class ProductDetails extends Component {
         const { product, isLoaded } = this.props.product;
         const { addItem } = this.props;
 
+        console.log(product);
+
+        const sanitize = data => ({ __html: DOMPurify.sanitize(data) });
+
         return (
             <>
                 {isLoaded ? (
                     <>
+                        {product.gallery.map((image, index) => (
+                            <img
+                                key={index}
+                                width="10%"
+                                src={image}
+                                alt="unique"
+                            />
+                        ))}
+                        <img src={product.gallery[0]} alt="unique" />
                         <h1>{product.name}</h1>
+                        <h3>Price: </h3>
                         <Price prices={product.prices} />
+                        {product.attributes.length &&
+                            product.attributes.map(attribute => (
+                                <div key={attribute.id}>
+                                    <p>{attribute.name}</p>
+                                    <ul>
+                                        {attribute.items.map(item => (
+                                            <li key={item.id}>
+                                                {item.displayValue}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            ))}
                         <CustomButton onClick={() => addItem(product)}>
                             Add to cart
                         </CustomButton>
+                        <div
+                            dangerouslySetInnerHTML={sanitize(
+                                product.description
+                            )}
+                        />
                     </>
                 ) : (
                     <h1>Loading...</h1>
