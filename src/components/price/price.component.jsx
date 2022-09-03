@@ -1,11 +1,28 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+import { convertPrice } from '../../helpers/price.helper';
 
 export class Price extends Component {
     render() {
-        const { children } = this.props;
+        const {
+            prices,
+            currencies: { currentCurrency },
+        } = this.props;
 
-        return <>{children}</>;
+        const convertedPrice = convertPrice(prices, currentCurrency);
+
+        return (
+            <>
+                {convertedPrice.correctSymbol}
+                {convertedPrice.correctPrice}
+            </>
+        );
     }
 }
 
-export default Price;
+const mapStateToProps = state => ({
+    currencies: state.currencies,
+});
+
+export default connect(mapStateToProps)(Price);

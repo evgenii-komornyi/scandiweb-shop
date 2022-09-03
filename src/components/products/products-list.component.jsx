@@ -7,7 +7,6 @@ import ProductItem from '../product-item/product-item.component';
 
 import {
     ProductsContainer,
-    CategoryTitle,
     CategoryItemsContainer,
 } from './products-list.styles';
 
@@ -19,30 +18,23 @@ class ProductsList extends Component {
     render() {
         const { category, isLoaded } = this.props.category;
 
-        return (
-            <>
-                {isLoaded ? (
-                    <>
-                        <CategoryTitle>{category.name}</CategoryTitle>
-                        <ProductsContainer>
-                            <CategoryItemsContainer>
-                                {category.products
-                                    .filter((_, index) => index < 6)
-                                    .map(product => (
-                                        <ProductItem
-                                            key={product.id}
-                                            product={product}
-                                            category={category.name}
-                                            isMainPage={true}
-                                        />
-                                    ))}
-                            </CategoryItemsContainer>
-                        </ProductsContainer>
-                    </>
-                ) : (
-                    <h1>Loading...</h1>
-                )}
-            </>
+        return isLoaded ? (
+            <ProductsContainer>
+                <CategoryItemsContainer>
+                    {category.products
+                        .filter((_, index) => index < 6)
+                        .map(product => (
+                            <ProductItem
+                                key={product.id}
+                                product={product}
+                                category={category.name}
+                                isMainPage={true}
+                            />
+                        ))}
+                </CategoryItemsContainer>
+            </ProductsContainer>
+        ) : (
+            <h1>Loading...</h1>
         );
     }
 }

@@ -2,15 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from '../../utils/withRouter';
 
-import {
-    calculateTotalPrice,
-    calculateItemsCount,
-} from '../../helpers/cart.helper';
-import { convertPrice } from '../../helpers/price.helper';
+import { calculateItemsCount } from '../../helpers/cart.helper';
+import { convertMultipleItemsPrice } from '../../helpers/price.helper';
 
 import CartItem from '../cart-item/cart-item.component';
-import Price from '../price/price.component';
 import CustomButton from '../custom-button/custom-button.component';
+import TotalPrice from '../total-price/total-price.component';
 
 import {
     CartOverlayContainer,
@@ -31,8 +28,7 @@ class CartOverlay extends Component {
         } = this.props;
 
         const convertedPrice =
-            items.length &&
-            items.map(item => convertPrice(item.prices, currentCurrency));
+            items.length && convertMultipleItemsPrice(items, currentCurrency);
 
         const itemsCount = calculateItemsCount(items);
 
@@ -60,20 +56,15 @@ class CartOverlay extends Component {
                                 <CartFooter>
                                     <TotalContainer>
                                         <h3>Total:</h3>
-                                        <Price>
-                                            <h3>
-                                                {
-                                                    convertedPrice[0]
-                                                        .correctSymbol
-                                                }{' '}
-                                                {Math.round(
-                                                    calculateTotalPrice(
-                                                        items,
-                                                        currentCurrency
-                                                    ) * 100
-                                                ) / 100}
-                                            </h3>
-                                        </Price>
+                                        <h3>
+                                            <TotalPrice
+                                                convertedPrice={convertedPrice}
+                                                items={items}
+                                                currentCurrency={
+                                                    currentCurrency
+                                                }
+                                            />
+                                        </h3>
                                     </TotalContainer>
                                     <ButtonsContainer>
                                         <CustomButton

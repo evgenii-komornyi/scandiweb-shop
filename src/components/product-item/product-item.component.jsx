@@ -6,8 +6,8 @@ import { addItem } from '../../redux/cart/cart.reducer';
 
 import { withRouter } from '../../utils/withRouter';
 
-import { AddToCartButton } from '../add-to-cart-button/add-to-cart-button.component';
 import Price from '../price/price.component';
+import { AddToCartButton } from '../add-to-cart-button/add-to-cart-button.component';
 
 import { convertPrice } from '../../helpers/price.helper';
 
@@ -27,10 +27,7 @@ class ProductItem extends Component {
             category,
             isMainPage = false,
             addItem,
-            currencies: { currentCurrency },
         } = this.props;
-
-        const convertedPrice = convertPrice(prices, currentCurrency);
 
         return (
             <ProductItemContainer
@@ -42,10 +39,7 @@ class ProductItem extends Component {
                 <ProductFooterContainer>
                     <NameContainer>{name}</NameContainer>
                     <PriceContainer>
-                        <Price>
-                            {convertedPrice.correctSymbol}{' '}
-                            {convertedPrice.correctPrice}
-                        </Price>
+                        <Price prices={prices} />
                     </PriceContainer>
                 </ProductFooterContainer>
                 {attributes.length === 0 && (
@@ -56,7 +50,6 @@ class ProductItem extends Component {
                             prices,
                             gallery,
                             attributes,
-                            correctPrice: convertedPrice.correctPrice,
                         }}
                         handleAddItemToCart={addItem}
                     />
@@ -66,15 +59,11 @@ class ProductItem extends Component {
     }
 }
 
-const mapStateToProps = state => ({
-    currencies: state.currencies,
-});
-
 const mapDispatchToProps = dispatch => ({
     addItem: product => dispatch(addItem(product)),
 });
 
 export default compose(
     withRouter,
-    connect(mapStateToProps, mapDispatchToProps)
+    connect(null, mapDispatchToProps)
 )(ProductItem);

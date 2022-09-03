@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { roundNumber } from '../../helpers/price.helper';
 import { addItem, removeItem } from '../../redux/cart/cart.reducer';
-
-import Price from '../price/price.component';
+import QuantityButton from '../quantity-button/quantity-button.component';
 
 import {
     CartItemContainer,
@@ -23,34 +23,20 @@ class CartItem extends Component {
                 <CartItemDescriptionContainer>
                     <ItemName>{item.name}</ItemName>
                     <PriceContainer>
-                        <Price>
-                            {convertedPrice[index].correctSymbol}
-                            {Math.round(
-                                convertedPrice[index].correctPrice *
-                                    item.quantity *
-                                    100
-                            ) / 100}
-                        </Price>
+                        {convertedPrice[index].correctSymbol}
+                        {roundNumber(
+                            convertedPrice[index].correctPrice * item.quantity
+                        )}
                     </PriceContainer>
                 </CartItemDescriptionContainer>
                 <QuantityContainer>
-                    <button
-                        onClick={e => {
-                            addItem(item);
-                            e.stopPropagation();
-                        }}
-                    >
+                    <QuantityButton handleClick={addItem} item={item}>
                         +
-                    </button>
+                    </QuantityButton>
                     {item.quantity}
-                    <button
-                        onClick={e => {
-                            removeItem(item);
-                            e.stopPropagation();
-                        }}
-                    >
+                    <QuantityButton handleClick={removeItem} item={item}>
                         -
-                    </button>
+                    </QuantityButton>
                 </QuantityContainer>
                 <ImageContainer>
                     <Image src={item.gallery[0]} alt={item.name} />
