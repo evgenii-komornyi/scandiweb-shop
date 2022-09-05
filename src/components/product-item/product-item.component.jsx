@@ -9,8 +9,6 @@ import { withRouter } from '../../utils/withRouter';
 import Price from '../price/price.component';
 import { AddToCartButton } from '../add-to-cart-button/add-to-cart-button.component';
 
-import { convertPrice } from '../../helpers/price.helper';
-
 import {
     ProductItemContainer,
     BackgroundImage,
