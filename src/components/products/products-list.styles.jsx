@@ -7,8 +7,14 @@ export const ProductsContainer = styled.div`
 `;
 
 export const CategoryTitle = styled.h2`
+    font-family: 'Raleway';
     font-size: 38px;
-    margin: 0 auto 30px;
+    margin-bottom: 30px;
+    text-indent: 40px;
+
+    &::first-letter {
+        text-transform: uppercase;
+    }
 `;
 
 export const CategoryItemsContainer = styled.div`
@@ -21,5 +27,3 @@ export const CategoryItemsContainer = styled.div`
         margin-bottom: 30px;
     }
 `;
-
-CategoryItemsContainer.displayName = 'CategoryItemsContainer';

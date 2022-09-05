@@ -26,7 +26,7 @@ export class App extends Component {
                         path="/:category/:productId"
                         element={<ProductPage />}
                     />
-                    <Route path="/checkout" element={<CartPage />} />
+                    <Route path="/cart" element={<CartPage />} />
                 </Routes>
             </>
         );

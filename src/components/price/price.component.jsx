@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { convertPrice } from '../../helpers/price.helper';
+
 export class Price extends Component {
     render() {
         const {
@@ -8,13 +10,12 @@ export class Price extends Component {
             currencies: { currentCurrency },
         } = this.props;
 
-        const convertedPrice = prices.find(
-            price => price.currency.label === currentCurrency
-        );
+        const convertedPrice = convertPrice(prices, currentCurrency);
 
         return (
             <>
-                {convertedPrice.amount} {convertedPrice.currency.symbol}
+                {convertedPrice.correctSymbol}
+                {convertedPrice.correctPrice}
             </>
         );
     }
