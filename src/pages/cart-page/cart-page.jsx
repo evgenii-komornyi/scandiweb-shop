@@ -8,7 +8,16 @@ class CartPage extends Component {
     render() {
         return (
             <Container>
-                <h1>Cart</h1>
+                <h1
+                    style={{
+                        fontWeight: 700,
+                        letterSpacing: '-2px',
+                        fontSize: '32px',
+                        lineHeight: '40px',
+                    }}
+                >
+                    CART
+                </h1>
                 <Cart />
             </Container>
         );

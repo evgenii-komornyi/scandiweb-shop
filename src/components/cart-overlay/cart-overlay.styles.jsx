@@ -13,11 +13,11 @@ export const CartOverlayContainer = styled.div`
 `;
 
 export const CartContainer = styled.div`
-    width: 350px;
+    width: 325px;
     height: 50vh;
     background-color: #fff;
     position: relative;
-    left: 68%;
+    left: 70%;
     padding: 20px 0 20px 20px;
     z-index: 9999;
     display: flex;
@@ -31,6 +31,7 @@ export const CartHeader = styled.div`
 
 export const ItemsContainer = styled.div`
     overflow-y: scroll;
+    overflow-x: hidden;
     padding: 0 10px;
 
     ::-webkit-scrollbar {

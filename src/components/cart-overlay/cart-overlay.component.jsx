@@ -46,9 +46,10 @@ class CartOverlay extends Component {
                                 <ItemsContainer>
                                     {items.map((item, index) => (
                                         <CartItem
-                                            key={item.id}
+                                            key={item.id + '_' + index}
                                             item={item}
                                             index={index}
+                                            isOverlay={true}
                                             convertedPrice={convertedPrice}
                                         />
                                     ))}
@@ -69,6 +70,7 @@ class CartOverlay extends Component {
                                     <ButtonsContainer>
                                         <CustomButton
                                             onClick={() => navigate('/cart')}
+                                            disabled={true}
                                             inverted
                                         >
                                             View Bag
@@ -78,6 +80,7 @@ class CartOverlay extends Component {
                                                 alert('Checkout');
                                                 navigate('/cart');
                                             }}
+                                            disabled={true}
                                         >
                                             Checkout
                                         </CustomButton>

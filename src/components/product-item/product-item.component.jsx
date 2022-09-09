@@ -20,7 +20,7 @@ import {
 class ProductItem extends Component {
     render() {
         const {
-            product: { id, gallery, name, prices, attributes },
+            product: { id, gallery, name, prices, inStock, attributes },
             navigate,
             category,
             isMainPage = false,
@@ -40,7 +40,7 @@ class ProductItem extends Component {
                         <Price prices={prices} />
                     </PriceContainer>
                 </ProductFooterContainer>
-                {attributes.length === 0 && (
+                {attributes.length === 0 && inStock && (
                     <AddToCartButton
                         product={{
                             id,

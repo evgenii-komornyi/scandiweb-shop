@@ -3,7 +3,6 @@ import { NavLink } from 'react-router-dom';
 
 export const HeaderContainer = styled.div`
     height: 80px;
-    text-transform: uppercase;
     width: 100%;
     display: flex;
     justify-content: space-around;
@@ -26,6 +25,7 @@ export const OptionsContainer = styled.ul`
 
     li {
         height: 50px;
+        text-transform: uppercase;
         color: black;
         margin: 0 0.8rem;
         font-size: 1.3rem;

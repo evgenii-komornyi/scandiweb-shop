@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
+import { Button } from './quantity-button.styles';
 
 class QuantityButton extends Component {
     render() {
-        const { handleClick, children, item } = this.props;
+        const { handleClick, children, item, isOverlay = false } = this.props;
 
-        const onClickHandler = (e, item) => {
+        const onClickHandler = e => {
             handleClick(item);
             e.stopPropagation();
         };
 
         return (
-            <button onClick={e => onClickHandler(e, item)}>{children}</button>
+            <Button isOverlay={isOverlay} onClick={onClickHandler}>
+                {children}
+            </Button>
         );
     }
 }

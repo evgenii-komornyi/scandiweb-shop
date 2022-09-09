@@ -1,9 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { addItemToCart, removeItemFromCart } from '../../helpers/cart.helper';
+import { getFromStorage, saveToStorage } from '../../helpers/storage.helper';
 
 const initialState = {
     isOpen: false,
-    items: [],
+    items: getFromStorage('items'),
 };
 
 const reducer = createSlice({
@@ -19,6 +20,8 @@ const reducer = createSlice({
                 items: addItemToCart(state.items, payload),
             };
 
+            saveToStorage('items', state.items);
+
             return state;
         },
 
@@ -27,6 +30,8 @@ const reducer = createSlice({
                 ...state,
                 items: removeItemFromCart(state.items, payload),
             };
+
+            saveToStorage('items', state.items);
 
             return state;
         },

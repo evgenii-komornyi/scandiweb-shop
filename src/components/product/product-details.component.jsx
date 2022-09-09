@@ -10,7 +10,37 @@ import { fetchProductById } from '../../redux/products/product.reducer';
 import { addItem } from '../../redux/cart/cart.reducer';
 import Price from '../price/price.component';
 
+import { generateArticle } from '../../helpers/generate.helper';
+import { checkForDuplicate } from '../../helpers/attributes.helper';
+
+import {
+    ProductContainer,
+    GalleryContainer,
+    ThumbnailsContainer,
+    ThumbnailCanvas,
+    Thumbnail,
+    MainImageContainer,
+    ProductDescriptionContainer,
+    NameContainer,
+    BrandContainer,
+    AttributesContainer,
+    PriceContainer,
+    PriceLabel,
+    PriceValue,
+    Description,
+} from './product-details.styles';
+import Attributes from '../attributes/attributes.component';
+
 class ProductDetails extends Component {
+    constructor() {
+        super();
+
+        this.state = {
+            selectedAttributes: [],
+            currentIndex: 0,
+        };
+    }
+
     componentDidMount() {
         this.props.fetchProductById(this.props.params.productId);
     }
@@ -21,11 +51,45 @@ class ProductDetails extends Component {
         }
     }
 
+    changeImage = index => {
+        this.setState({ currentIndex: index });
+    };
+
+    addToCart = product => {
+        const { selectedAttributes } = this.state;
+
+        const productToCart = {
+            ...product,
+            article: generateArticle(product.id, selectedAttributes),
+            selectedAttributes: selectedAttributes,
+        };
+
+        this.props.addItem(productToCart);
+    };
+
+    onChangeHandler = (name, value) => {
+        this.setState(prevState => ({
+            selectedAttributes: checkForDuplicate(
+                prevState.selectedAttributes,
+                name,
+                value
+            ).sort((a, b) => {
+                if (a.name > b.name) {
+                    return 1;
+                }
+
+                if (a.name < b.name) {
+                    return -1;
+                }
+
+                return 0;
+            }),
+        }));
+    };
+
     render() {
         const { product, isLoaded } = this.props.product;
-        const { addItem } = this.props;
-
-        console.log(product);
+        const { currentIndex, selectedAttributes } = this.state;
 
         const sanitize = data => ({ __html: DOMPurify.sanitize(data) });
 
@@ -33,39 +97,72 @@ class ProductDetails extends Component {
             <>
                 {isLoaded ? (
                     <>
-                        {product.gallery.map((image, index) => (
-                            <img
-                                key={index}
-                                width="10%"
-                                src={image}
-                                alt="unique"
-                            />
-                        ))}
-                        <img src={product.gallery[0]} alt="unique" />
-                        <h1>{product.name}</h1>
-                        <h3>Price: </h3>
-                        <Price prices={product.prices} />
-                        {product.attributes.length &&
-                            product.attributes.map(attribute => (
-                                <div key={attribute.id}>
-                                    <p>{attribute.name}</p>
-                                    <ul>
-                                        {attribute.items.map(item => (
-                                            <li key={item.id}>
-                                                {item.displayValue}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            ))}
-                        <CustomButton onClick={() => addItem(product)}>
-                            Add to cart
-                        </CustomButton>
-                        <div
-                            dangerouslySetInnerHTML={sanitize(
-                                product.description
-                            )}
-                        />
+                        <ProductContainer>
+                            <GalleryContainer>
+                                <ThumbnailsContainer>
+                                    {product.gallery.map((image, index) => (
+                                        <ThumbnailCanvas key={index}>
+                                            <Thumbnail
+                                                style={{
+                                                    boxShadow:
+                                                        currentIndex === index
+                                                            ? '0 0 10px rgba(0, 0, 0, 0.5)'
+                                                            : null,
+                                                }}
+                                                image={image}
+                                                onClick={() =>
+                                                    this.changeImage(index)
+                                                }
+                                            />
+                                        </ThumbnailCanvas>
+                                    ))}
+                                </ThumbnailsContainer>
+                                <MainImageContainer>
+                                    <img
+                                        src={product.gallery[currentIndex]}
+                                        alt="unique"
+                                    />
+                                </MainImageContainer>
+                            </GalleryContainer>
+                            <ProductDescriptionContainer>
+                                <NameContainer>{product.name}</NameContainer>
+                                <BrandContainer>{product.brand}</BrandContainer>
+                                <AttributesContainer>
+                                    {product.attributes.length &&
+                                    product.inStock ? (
+                                        <Attributes
+                                            attributes={product.attributes}
+                                            onChange={this.onChangeHandler}
+                                        />
+                                    ) : null}
+                                </AttributesContainer>
+                                <PriceContainer>
+                                    <PriceLabel>Price: </PriceLabel>
+                                    <PriceValue>
+                                        <Price prices={product.prices} />
+                                    </PriceValue>
+                                </PriceContainer>
+                                {product.inStock ? (
+                                    <CustomButton
+                                        onClick={this.addToCart}
+                                        product={product}
+                                        disabled={
+                                            product.attributes.length ===
+                                            selectedAttributes.length
+                                        }
+                                    >
+                                        Add to cart
+                                    </CustomButton>
+                                ) : (
+                                    <h1>Out of Stock</h1>
+                                )}
+                                <Description
+                                    dangerouslySetInnerHTML={sanitize(
+                                        product.description
+                                    )}
+                                />
+                            </ProductDescriptionContainer>
+                        </ProductContainer>
                     </>
                 ) : (
                     <h1>Loading...</h1>

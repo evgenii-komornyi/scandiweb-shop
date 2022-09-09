@@ -10,6 +10,13 @@ const buttonStyles = css`
         color: black;
         border: 1px solid black;
     }
+
+    &:disabled {
+        background-color: #fff;
+        color: #888;
+        border: 1px solid #888;
+        cursor: not-allowed;
+    }
 `;
 
 const invertedButtonStyles = css`
