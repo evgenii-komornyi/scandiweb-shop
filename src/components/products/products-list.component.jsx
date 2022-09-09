@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { fetchCategoryByName } from '../../redux/categories/category.reducer';
 
 import ProductItem from '../product-item/product-item.component';
+import Spinner from '../spinner/spinner.component';
 
 import {
     ProductsContainer,
@@ -34,7 +35,7 @@ class ProductsList extends Component {
                 </CategoryItemsContainer>
             </ProductsContainer>
         ) : (
-            <h1>Loading...</h1>
+            <Spinner />
         );
     }
 }

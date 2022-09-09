@@ -20,7 +20,7 @@ import {
 class ProductItem extends Component {
     render() {
         const {
-            product: { id, gallery, name, prices, inStock, attributes },
+            product: { id, gallery, name, brand, prices, inStock, attributes },
             navigate,
             category,
             isMainPage = false,
@@ -35,7 +35,9 @@ class ProductItem extends Component {
             >
                 <BackgroundImage className="image" imageUrl={gallery[0]} />
                 <ProductFooterContainer>
-                    <NameContainer>{name}</NameContainer>
+                    <NameContainer>
+                        {name} {brand}
+                    </NameContainer>
                     <PriceContainer>
                         <Price prices={prices} />
                     </PriceContainer>

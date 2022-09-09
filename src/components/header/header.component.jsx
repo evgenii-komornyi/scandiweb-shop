@@ -17,6 +17,7 @@ import Logo from '../../img/logo.png';
 class Header extends Component {
     render() {
         const { categories, isLoaded } = this.props.categories;
+
         return (
             <HeaderContainer>
                 <OptionsContainer>

@@ -10,13 +10,15 @@ import ProductPage from './pages/product-page/product-page';
 import CartPage from './pages/cart-page/cart-page';
 import Header from './components/header/header.component';
 
+import Spinner from './components/spinner/spinner.component';
+
 export class App extends Component {
     componentDidMount() {
         this.props.fetchCategories();
     }
 
     render() {
-        return (
+        return this.props.categories.isLoaded ? (
             <>
                 <Header />
                 <Routes>
@@ -29,6 +31,8 @@ export class App extends Component {
                     <Route path="/cart" element={<CartPage />} />
                 </Routes>
             </>
+        ) : (
+            <Spinner />
         );
     }
 }
