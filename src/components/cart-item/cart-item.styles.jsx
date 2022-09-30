@@ -3,12 +3,6 @@ import styled, { css } from 'styled-components';
 const getSwatchStyle = css`
     width: 10px;
     height: 10px;
-    opacity: 0.2;
-
-    &.active {
-        opacity: 1;
-        border: 1px solid #75c43c;
-    }
 `;
 
 const getTextStyle = css`
@@ -118,29 +112,63 @@ export const AttributeName = styled.h5`
     margin: 5px 0 0 0;
 `;
 
-const checkPopsAttrItem = props =>
+const addActiveClassToSelectedAttribute = props =>
+    props.incomingType === 'swatch' && props.isOverlay
+        ? css`
+              & > .border.active {
+                  width: 24.9px;
+                  height: 24.9px;
+                  border: 1px solid #5ece7b;
+                  position: absolute;
+                  top: 1.5px;
+                  right: 1.4px;
+              }
+          `
+        : css`
+              & > .border.active {
+                  width: 34.9px;
+                  height: 34.9px;
+                  border: 1px solid #5ece7b;
+                  position: absolute;
+                  top: 1.4px;
+                  right: 1.5px;
+              }
+          `;
+
+export const SelectedAttribute = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: ${props => (props.incomingType === 'swatch' ? 'relative' : null)};
+    ${addActiveClassToSelectedAttribute};
+`;
+
+const checkPropsAttributeItem = props =>
     props.isOverlay
         ? css`
               font-size: 10px;
-              margin: 4px 4px 10px 0;
               padding: 5px;
           `
         : css`
               font-size: 16px;
-              margin: 4px 4px 10px 0;
               padding: 10px;
           `;
 
 export const AttributeItem = styled.div`
     text-transform: uppercase;
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-    border: 1px solid black;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    margin: 4px 4px 10px 0;
 
-    ${checkPopsAttrItem}
     ${checkType}
+    ${checkPropsAttributeItem}
+
+    background-color: ${props =>
+        props.incomingType === 'swatch' ? props.value : ''};
 `;
 
 export const QuantityContainer = styled.div`

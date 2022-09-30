@@ -3,8 +3,8 @@ import styled, { css } from 'styled-components';
 const getSwatchStyle = css`
     width: 40px;
     height: 40px;
-    opacity: 0.5;
-    border: 1px solid #75c43c;
+    position: relative;
+    z-index: 2;
 `;
 
 const getTextStyle = css`
@@ -16,7 +16,7 @@ const getTextStyle = css`
 const checkType = props =>
     props.incomingType === 'swatch' ? getSwatchStyle : getTextStyle;
 
-export const AttributeItem = styled.input`
+export const AttributeItem = styled.div`
     padding: 5px;
     display: flex;
     justify-content: center;
@@ -27,23 +27,42 @@ export const AttributeItem = styled.input`
         display: none;
     }
 
-    &.attrButton:checked + .attrLabel {
+    &.attrButton.active + .attrLabel {
         background-color: #1d1f22;
         color: #ffffff;
     }
-
-    &.attrButton:checked + .coloredLabel {
-        opacity: 1;
-    }
 `;
 
-export const Label = styled.label`
+const addActiveClassToSelectedAttribute = props =>
+    props.incomingType === 'swatch' &&
+    css`
+        & > .border.active {
+            width: 45.5px;
+            height: 45.5px;
+            border: 1px solid #5ece7b;
+            position: absolute;
+            top: 7px;
+            right: 7.5px;
+        }
+    `;
+
+export const SelectedAttribute = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid #a6a6a6;
+    position: ${props => (props.incomingType === 'swatch' ? 'relative' : null)};
+    ${addActiveClassToSelectedAttribute};
+`;
+
+export const Label = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgba(0, 0, 0, 0.2);
     margin: 10px 10px 10px 0;
     cursor: pointer;
+    background-color: ${({ itemValue, incomingType }) =>
+        incomingType === 'swatch' && itemValue};
 
-    ${checkType}
+    ${checkType};
 `;

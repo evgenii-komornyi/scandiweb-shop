@@ -15,6 +15,8 @@ import {
     ProductFooterContainer,
     NameContainer,
     PriceContainer,
+    BackgroundImageContainer,
+    OutOfStockContainer,
 } from './product-item.styles';
 
 class ProductItem extends Component {
@@ -33,7 +35,18 @@ class ProductItem extends Component {
                     navigate(`${isMainPage ? `${category}/${id}` : `${id}`}`)
                 }
             >
-                <BackgroundImage className="image" imageUrl={gallery[0]} />
+                {!inStock && (
+                    <OutOfStockContainer>
+                        <h1>Out of stock</h1>
+                    </OutOfStockContainer>
+                )}
+                <BackgroundImageContainer>
+                    <BackgroundImage
+                        className="image"
+                        src={gallery[0]}
+                        alt={name}
+                    />
+                </BackgroundImageContainer>
                 <ProductFooterContainer>
                     <NameContainer>
                         {name} {brand}

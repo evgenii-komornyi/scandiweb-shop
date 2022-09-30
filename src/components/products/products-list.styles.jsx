@@ -20,10 +20,10 @@ export const CategoryTitle = styled.h2`
 export const CategoryItemsContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
+    justify-content: flex-start;
 
     & > div {
-        flex: 1 1 25%;
-        margin: 10px;
-        margin-bottom: 30px;
+        flex: 0 0 25%;
+        margin: 10px 35px 35px 30px;
     }
 `;

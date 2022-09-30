@@ -4,30 +4,96 @@ import { connect } from 'react-redux';
 import {
     fetchCurrencies,
     changeCurrentCurrency,
+    setIsCurrenciesOpen,
+    setActiveIndex,
 } from '../../redux/currencies/currencies.reducer';
 
-import { Select, Option } from './currency-options.styles';
+import {
+    CurrencySwitcherContainer,
+    CurrencyLabel,
+    ArrowContainer,
+    CurrenciesOverlay,
+    CurrencyOption,
+} from './currency-options.styles';
+
+import ArrowUp from '../../img/arrow_up.png';
 
 export class CurrencyOptions extends Component {
-    componentDidMount() {
-        this.props.fetchCurrencies();
+    constructor() {
+        super();
+        this.wrapperRef = React.createRef();
     }
 
-    onCurrencyChange = e => {
-        this.props.changeCurrentCurrency(e.target.value);
+    componentDidMount() {
+        this.props.fetchCurrencies();
+
+        document.addEventListener('mousedown', this.handleClickOutside);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('mousedown', this.handleClickOutside);
+    }
+
+    handleClickOutside = event => {
+        if (
+            this.wrapperRef &&
+            !this.wrapperRef.current.contains(event.target)
+        ) {
+            this.props.setIsCurrenciesOpen(false);
+        }
+    };
+
+    onCurrencyChange = (e, index) => {
+        const { changeCurrentCurrency, setActiveIndex } = this.props;
+        const splitted = e.target.innerText.split(' ');
+
+        changeCurrentCurrency(splitted[1]);
+
+        setActiveIndex(index);
+    };
+
+    changeActiveIndex = index => {
+        this.props.setActiveIndex(index);
     };
 
     render() {
-        const { currencies } = this.props.currencies;
+        const {
+            currencies: { currencies, currentCurrency, isOpen, activeIndex },
+            setIsCurrenciesOpen,
+        } = this.props;
+
+        const chosenCurrency = currencies.find(
+            currency => currency.label === currentCurrency
+        );
 
         return (
-            <Select name="currency" onChange={this.onCurrencyChange}>
-                {currencies.map(currency => (
-                    <Option value={currency.label} key={currency.label}>
-                        {currency.symbol}
-                    </Option>
-                ))}
-            </Select>
+            <>
+                <CurrencySwitcherContainer
+                    onClick={() => setIsCurrenciesOpen(true)}
+                >
+                    <CurrencyLabel>
+                        {chosenCurrency && chosenCurrency.symbol}
+                    </CurrencyLabel>
+                    <ArrowContainer image={ArrowUp} isOpen={isOpen} />
+                </CurrencySwitcherContainer>
+                <CurrenciesOverlay
+                    ref={this.wrapperRef}
+                    isOpen={isOpen}
+                    onClick={e => e.stopPropagation()}
+                >
+                    {currencies.map((currency, index) => (
+                        <CurrencyOption
+                            key={index}
+                            className={`${
+                                activeIndex === index ? 'active' : null
+                            } `}
+                            onClick={e => this.onCurrencyChange(e, index)}
+                        >
+                            {currency.symbol} {currency.label}
+                        </CurrencyOption>
+                    ))}
+                </CurrenciesOverlay>
+            </>
         );
     }
 }
@@ -40,6 +106,8 @@ const mapDispatchToProps = dispatch => ({
     fetchCurrencies: () => dispatch(fetchCurrencies()),
     changeCurrentCurrency: currentCurrency =>
         dispatch(changeCurrentCurrency(currentCurrency)),
+    setIsCurrenciesOpen: isOpen => dispatch(setIsCurrenciesOpen(isOpen)),
+    setActiveIndex: index => dispatch(setActiveIndex(index)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CurrencyOptions);

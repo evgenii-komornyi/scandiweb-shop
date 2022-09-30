@@ -1,9 +1,16 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getCurrencies } from '../../api/service';
+import {
+    getActiveIndexFromStorage,
+    getCurrencyFromStorage,
+    saveToStorage,
+} from '../../helpers/storage.helper';
 
 const initialState = {
     currencies: [],
-    currentCurrency: 'USD',
+    currentCurrency: getCurrencyFromStorage('currentCurrency'),
+    isOpen: false,
+    activeIndex: getActiveIndexFromStorage('activeIndex'),
     isLoaded: false,
     error: null,
 };
@@ -23,6 +30,19 @@ const reducer = createSlice({
     reducers: {
         changeCurrentCurrency: (state, { payload }) => {
             state = { ...state, currentCurrency: payload };
+
+            saveToStorage('currentCurrency', state.currentCurrency);
+
+            return state;
+        },
+        setIsCurrenciesOpen: (state, { payload }) => {
+            return { ...state, isOpen: payload };
+        },
+        setActiveIndex: (state, { payload }) => {
+            state = { ...state, activeIndex: payload };
+
+            saveToStorage('activeIndex', state.activeIndex);
+
             return state;
         },
     },
@@ -47,5 +67,6 @@ const reducer = createSlice({
     },
 });
 
-export const { changeCurrentCurrency } = reducer.actions;
+export const { changeCurrentCurrency, setIsCurrenciesOpen, setActiveIndex } =
+    reducer.actions;
 export const currenciesReducer = reducer.reducer;

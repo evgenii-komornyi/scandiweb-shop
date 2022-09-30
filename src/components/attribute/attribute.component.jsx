@@ -1,10 +1,20 @@
 import React, { Component } from 'react';
 
-import { AttributeItem, Label } from './attribute.styles';
+import { SelectedAttribute, AttributeItem, Label } from './attribute.styles';
 
 class Attribute extends Component {
-    onChangeHandler = e => {
-        const { name, value } = e.target;
+    constructor() {
+        super();
+
+        this.state = {
+            activeItem: null,
+        };
+    }
+
+    onChangeHandler = (e, currentItemId) => {
+        const { name, value } = e.target.dataset;
+
+        this.setState({ activeItem: currentItemId });
 
         this.props.onChange(name, value);
     };
@@ -13,16 +23,17 @@ class Attribute extends Component {
         const { attribute } = this.props;
 
         return attribute.items.map((item, index) => (
-            <div key={item.id}>
+            <SelectedAttribute key={item.id} incomingType={attribute.type}>
                 <AttributeItem
-                    onChange={this.onChangeHandler}
-                    className="attrButton"
+                    className={`${
+                        this.state.activeItem === item.id ? 'active' : ''
+                    } attrButton`}
                     id={`${attribute.id}_${item.value}_${index}`}
-                    type="radio"
-                    name={attribute.name}
-                    value={item.value}
                 />
                 <Label
+                    data-name={attribute.name}
+                    data-value={item.value}
+                    onClick={e => this.onChangeHandler(e, item.id)}
                     incomingType={attribute.type}
                     className={
                         attribute.type === 'swatch'
@@ -30,14 +41,16 @@ class Attribute extends Component {
                             : 'attrLabel'
                     }
                     htmlFor={`${attribute.id}_${item.value}_${index}`}
-                    style={{
-                        backgroundColor:
-                            attribute.type === 'swatch' && `${item.value}`,
-                    }}
+                    itemValue={item.value}
                 >
                     {attribute.type === 'text' && item.value}
                 </Label>
-            </div>
+                <div
+                    className={`border ${
+                        this.state.activeItem === item.id ? 'active' : ''
+                    }`}
+                />
+            </SelectedAttribute>
         ));
     }
 }

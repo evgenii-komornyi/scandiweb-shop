@@ -14,6 +14,7 @@ import {
     AttributesContainer,
     AttributeItemContainer,
     AttributeName,
+    SelectedAttribute,
     AttributeItem,
     QuantityContainer,
     ImageContainer,
@@ -44,7 +45,7 @@ class CartItem extends Component {
                         {convertedPrice[index].correctSymbol}
                         {roundNumber(
                             convertedPrice[index].correctPrice * item.quantity
-                        )}
+                        ).toFixed(2)}
                     </PriceContainer>
                     <AttributesContainer>
                         {item.attributes.map((attribute, index) => (
@@ -55,31 +56,41 @@ class CartItem extends Component {
                                 <AttributeItemContainer key={index}>
                                     {attribute.items.map(
                                         (attributeItem, index) => (
-                                            <AttributeItem
+                                            <SelectedAttribute
                                                 key={index}
+                                                isOverlay={isOverlay}
                                                 incomingType={attribute.type}
-                                                className={
+                                            >
+                                                <AttributeItem
+                                                    key={index}
+                                                    incomingType={
+                                                        attribute.type
+                                                    }
+                                                    className={
+                                                        attribute.type ===
+                                                            'text' &&
+                                                        findSelectedAttribute(
+                                                            attribute
+                                                        ).value ===
+                                                            attributeItem.value
+                                                            ? 'active'
+                                                            : ''
+                                                    }
+                                                    value={attributeItem.value}
+                                                    isOverlay={isOverlay}
+                                                >
+                                                    {attribute.type ===
+                                                        'text' &&
+                                                        attributeItem.value}
+                                                </AttributeItem>
+                                                {attribute.type === 'swatch' &&
                                                     findSelectedAttribute(
                                                         attribute
                                                     ).value ===
-                                                    attributeItem.value
-                                                        ? 'active'
-                                                        : null
-                                                }
-                                                style={{
-                                                    backgroundColor: `${
-                                                        attribute.type ===
-                                                        'swatch'
-                                                            ? attributeItem.value
-                                                            : ''
-                                                    }`,
-                                                }}
-                                                isOverlay={isOverlay}
-                                            >
-                                                {' '}
-                                                {attribute.type === 'text' &&
-                                                    attributeItem.value}
-                                            </AttributeItem>
+                                                        attributeItem.value && (
+                                                        <div className="border active" />
+                                                    )}
+                                            </SelectedAttribute>
                                         )
                                     )}
                                 </AttributeItemContainer>

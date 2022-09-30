@@ -33,6 +33,8 @@ export const Thumbnail = styled.div`
     background-image: ${({ image }) => `url(${image})`};
     background-position: center;
     background-size: cover;
+    box-shadow: ${({ currentIndex, index }) =>
+        currentIndex === index ? '0 0 10px rgba(0, 0, 0, 0.5)' : null};
 `;
 
 export const MainImageContainer = styled.div`

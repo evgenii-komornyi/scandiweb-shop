@@ -11,8 +11,8 @@ const reducer = createSlice({
     name: 'cart',
     initialState,
     reducers: {
-        setIsCartOpen: state => {
-            return { ...state, isOpen: !state.isOpen };
+        setIsCartOpen: (state, { payload }) => {
+            return { ...state, isOpen: payload };
         },
         addItem: (state, { payload }) => {
             state = {

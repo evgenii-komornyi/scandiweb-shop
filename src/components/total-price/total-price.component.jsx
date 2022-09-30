@@ -9,7 +9,9 @@ class TotalPrice extends Component {
         return (
             <>
                 {convertedPrice[0].correctSymbol}
-                {roundNumber(calculateTotalPrice(items, currentCurrency))}
+                {roundNumber(
+                    calculateTotalPrice(items, currentCurrency)
+                ).toFixed(2)}
             </>
         );
     }

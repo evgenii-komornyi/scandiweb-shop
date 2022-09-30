@@ -2,37 +2,46 @@ import styled from 'styled-components';
 
 export const ProductItemContainer = styled.div`
     width: 33.333vw;
+    height: 350px;
     display: flex;
     padding: 20px 20px 50px;
     flex-direction: column;
-    height: 350px;
     align-items: center;
     position: relative;
     cursor: pointer;
 
     &:hover {
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-
-        .image {
-            opacity: 0.8;
-            box-shadow: none;
-        }
-
-        button {
-            opacity: 0.85;
-            display: flex;
-        }
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
     }
 `;
 
-export const BackgroundImage = styled.div`
-    width: 80%;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
+export const OutOfStockContainer = styled.div`
+    width: 100%;
+    height: 420px;
+    background: rgba(255, 255, 255, 0.5);
+    color: #8d8f9a;
+    position: absolute;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+
+    & > h1 {
+        font-weight: 300;
+    }
+`;
+
+export const BackgroundImageContainer = styled.div`
+    width: 300px;
+    height: 300px;
+    text-align: center;
+`;
+
+export const BackgroundImage = styled.img`
+    max-width: 100%;
+    max-height: 100%;
     margin-bottom: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    background-image: ${({ imageUrl }) => `url(${imageUrl})`};
 `;
 
 export const ProductFooterContainer = styled.div`

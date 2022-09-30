@@ -13,7 +13,12 @@ import {
 
 class ProductsList extends Component {
     componentDidMount() {
-        this.props.fetchCategoryByName('all');
+        const {
+            categories: { categories },
+            fetchCategoryByName,
+        } = this.props;
+
+        fetchCategoryByName(categories[0].name);
     }
 
     render() {
@@ -42,6 +47,7 @@ class ProductsList extends Component {
 
 const mapStateToProps = state => ({
     category: state.category,
+    categories: state.categories,
 });
 
 const mapDispatchToProps = dispatch => ({

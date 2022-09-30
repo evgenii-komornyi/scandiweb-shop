@@ -97,18 +97,14 @@ class ProductDetails extends Component {
             <>
                 {isLoaded ? (
                     <>
-                        <ProductContainer>
+                        <ProductContainer key={product.id}>
                             <GalleryContainer>
                                 <ThumbnailsContainer>
                                     {product.gallery.map((image, index) => (
                                         <ThumbnailCanvas key={index}>
                                             <Thumbnail
-                                                style={{
-                                                    boxShadow:
-                                                        currentIndex === index
-                                                            ? '0 0 10px rgba(0, 0, 0, 0.5)'
-                                                            : null,
-                                                }}
+                                                currentIndex={currentIndex}
+                                                index={index}
                                                 image={image}
                                                 onClick={() =>
                                                     this.changeImage(index)

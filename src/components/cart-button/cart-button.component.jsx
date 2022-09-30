@@ -19,13 +19,19 @@ class CartButton extends Component {
         const { items } = this.props.cart;
 
         return (
-            <CartButtonContainer onClick={() => this.props.setIsCartOpen()}>
-                <CartImage src={CartSrc} alt="cart" />
-                {items.length > 0 && (
-                    <ProductsCount>{calculateItemsCount(items)}</ProductsCount>
-                )}
+            <>
+                <CartButtonContainer
+                    onClick={() => this.props.setIsCartOpen(true)}
+                >
+                    <CartImage src={CartSrc} alt="cart" />
+                    {items.length > 0 && (
+                        <ProductsCount>
+                            {calculateItemsCount(items)}
+                        </ProductsCount>
+                    )}
+                </CartButtonContainer>
                 <CartOverlay />
-            </CartButtonContainer>
+            </>
         );
     }
 }
@@ -35,7 +41,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    setIsCartOpen: () => dispatch(setIsCartOpen()),
+    setIsCartOpen: isOpen => dispatch(setIsCartOpen(isOpen)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CartButton);

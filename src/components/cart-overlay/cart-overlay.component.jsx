@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from '../../utils/withRouter';
 
+import { setIsCartOpen } from '../../redux/cart/cart.reducer';
+
 import { calculateItemsCount } from '../../helpers/cart.helper';
 import { convertMultipleItemsPrice } from '../../helpers/price.helper';
 
@@ -20,6 +22,28 @@ import {
 } from './cart-overlay.styles';
 
 class CartOverlay extends Component {
+    constructor() {
+        super();
+        this.wrapperRef = React.createRef();
+    }
+
+    componentDidMount() {
+        document.addEventListener('mousedown', this.handleClickOutside);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('mousedown', this.handleClickOutside);
+    }
+
+    handleClickOutside = event => {
+        if (
+            this.wrapperRef &&
+            !this.wrapperRef.current.contains(event.target)
+        ) {
+            this.props.setIsCartOpen(false);
+        }
+    };
+
     render() {
         const {
             cart: { isOpen, items },
@@ -34,8 +58,16 @@ class CartOverlay extends Component {
 
         return (
             <>
-                <CartOverlayContainer isOpen={isOpen}>
-                    <CartContainer>
+                <CartOverlayContainer
+                    isOpen={isOpen}
+                    ref={this.wrapperRef}
+                    onClick={() => this.props.setIsCartOpen(false)}
+                >
+                    <CartContainer
+                        onClick={e => {
+                            e.stopPropagation();
+                        }}
+                    >
                         {items.length > 0 ? (
                             <>
                                 <CartHeader>
@@ -69,7 +101,10 @@ class CartOverlay extends Component {
                                     </TotalContainer>
                                     <ButtonsContainer>
                                         <CustomButton
-                                            onClick={() => navigate('/cart')}
+                                            onClick={() => {
+                                                this.props.setIsCartOpen(false);
+                                                navigate('/cart');
+                                            }}
                                             disabled={true}
                                             inverted
                                         >
@@ -79,6 +114,7 @@ class CartOverlay extends Component {
                                             onClick={() => {
                                                 alert('Checkout');
                                                 navigate('/cart');
+                                                this.props.setIsCartOpen(false);
                                             }}
                                             disabled={true}
                                         >
@@ -102,4 +138,10 @@ const mapStateToProps = state => ({
     currencies: state.currencies,
 });
 
-export default withRouter(connect(mapStateToProps)(CartOverlay));
+const mapDispatchToProps = dispatch => ({
+    setIsCartOpen: isOpen => dispatch(setIsCartOpen(isOpen)),
+});
+
+export default withRouter(
+    connect(mapStateToProps, mapDispatchToProps)(CartOverlay)
+);

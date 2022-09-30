@@ -15,7 +15,7 @@ export class Price extends Component {
         return (
             <>
                 {convertedPrice.correctSymbol}
-                {convertedPrice.correctPrice}
+                {convertedPrice.correctPrice.toFixed(2)}
             </>
         );
     }
