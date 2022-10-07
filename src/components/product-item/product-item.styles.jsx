@@ -11,7 +11,7 @@ export const ProductItemContainer = styled.div`
     cursor: pointer;
 
     &:hover {
-        box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 0 35px rgba(66, 67, 69, 0.2);
     }
 `;
 

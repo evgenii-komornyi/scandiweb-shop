@@ -9,7 +9,7 @@ export const getFromStorage = itemName => {
 
 export const getCurrencyFromStorage = itemName => {
     const items = localStorage.getItem(itemName);
-    return items === null ? 'USD' : JSON.parse(items);
+    return JSON.parse(items);
 };
 
 export const getActiveIndexFromStorage = itemName => {

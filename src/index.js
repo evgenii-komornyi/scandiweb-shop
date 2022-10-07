@@ -17,12 +17,14 @@ const client = new ApolloClient({
 });
 
 root.render(
-    <BrowserRouter>
-        <ApolloProvider client={client}>
-            <Provider store={store}>
-                <GlobalStyles />
-                <App />
-            </Provider>
-        </ApolloProvider>
-    </BrowserRouter>
+    <React.StrictMode>
+        <BrowserRouter>
+            <ApolloProvider client={client}>
+                <Provider store={store}>
+                    <GlobalStyles />
+                    <App />
+                </Provider>
+            </ApolloProvider>
+        </BrowserRouter>
+    </React.StrictMode>
 );

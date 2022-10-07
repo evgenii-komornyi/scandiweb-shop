@@ -57,78 +57,86 @@ class CartOverlay extends Component {
         const itemsCount = calculateItemsCount(items);
 
         return (
-            <>
-                <CartOverlayContainer
-                    isOpen={isOpen}
-                    ref={this.wrapperRef}
-                    onClick={() => this.props.setIsCartOpen(false)}
-                >
-                    <CartContainer
-                        onClick={e => {
-                            e.stopPropagation();
-                        }}
+            convertedPrice && (
+                <>
+                    <CartOverlayContainer
+                        isOpen={isOpen}
+                        ref={this.wrapperRef}
+                        onClick={() => this.props.setIsCartOpen(false)}
                     >
-                        {items.length > 0 ? (
-                            <>
-                                <CartHeader>
-                                    {`My Bag: ${itemsCount} ${
-                                        itemsCount === 1 ? 'item' : 'items'
-                                    }`}
-                                </CartHeader>
-                                <ItemsContainer>
-                                    {items.map((item, index) => (
-                                        <CartItem
-                                            key={item.id + '_' + index}
-                                            item={item}
-                                            index={index}
-                                            isOverlay={true}
-                                            convertedPrice={convertedPrice}
-                                        />
-                                    ))}
-                                </ItemsContainer>
-                                <CartFooter>
-                                    <TotalContainer>
-                                        <h3>Total:</h3>
-                                        <h3>
-                                            <TotalPrice
+                        <CartContainer
+                            onClick={e => {
+                                e.stopPropagation();
+                            }}
+                        >
+                            {items.length > 0 ? (
+                                <>
+                                    <CartHeader>
+                                        {`My Bag: ${itemsCount} ${
+                                            itemsCount === 1 ? 'item' : 'items'
+                                        }`}
+                                    </CartHeader>
+                                    <ItemsContainer>
+                                        {items.map((item, index) => (
+                                            <CartItem
+                                                key={item.id + '_' + index}
+                                                item={item}
+                                                index={index}
+                                                isOverlay={true}
                                                 convertedPrice={convertedPrice}
-                                                items={items}
-                                                currentCurrency={
-                                                    currentCurrency
-                                                }
                                             />
-                                        </h3>
-                                    </TotalContainer>
-                                    <ButtonsContainer>
-                                        <CustomButton
-                                            onClick={() => {
-                                                this.props.setIsCartOpen(false);
-                                                navigate('/cart');
-                                            }}
-                                            disabled={true}
-                                            inverted
-                                        >
-                                            View Bag
-                                        </CustomButton>
-                                        <CustomButton
-                                            onClick={() => {
-                                                alert('Checkout');
-                                                navigate('/cart');
-                                                this.props.setIsCartOpen(false);
-                                            }}
-                                            disabled={true}
-                                        >
-                                            Checkout
-                                        </CustomButton>
-                                    </ButtonsContainer>
-                                </CartFooter>
-                            </>
-                        ) : (
-                            <h6>Cart is empty.</h6>
-                        )}
-                    </CartContainer>
-                </CartOverlayContainer>
-            </>
+                                        ))}
+                                    </ItemsContainer>
+                                    <CartFooter>
+                                        <TotalContainer>
+                                            <h3>Total:</h3>
+                                            <h3>
+                                                <TotalPrice
+                                                    convertedPrice={
+                                                        convertedPrice
+                                                    }
+                                                    items={items}
+                                                    currentCurrency={
+                                                        currentCurrency
+                                                    }
+                                                />
+                                            </h3>
+                                        </TotalContainer>
+                                        <ButtonsContainer>
+                                            <CustomButton
+                                                onClick={() => {
+                                                    this.props.setIsCartOpen(
+                                                        false
+                                                    );
+                                                    navigate('/cart');
+                                                }}
+                                                disabled={true}
+                                                inverted
+                                            >
+                                                View Bag
+                                            </CustomButton>
+                                            <CustomButton
+                                                onClick={() => {
+                                                    alert('Checkout');
+                                                    navigate('/cart');
+                                                    this.props.setIsCartOpen(
+                                                        false
+                                                    );
+                                                }}
+                                                disabled={true}
+                                            >
+                                                Checkout
+                                            </CustomButton>
+                                        </ButtonsContainer>
+                                    </CartFooter>
+                                </>
+                            ) : (
+                                <h6>Cart is empty.</h6>
+                            )}
+                        </CartContainer>
+                    </CartOverlayContainer>
+                </>
+            )
         );
     }
 }

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import {
-    fetchCurrencies,
     changeCurrentCurrency,
     setIsCurrenciesOpen,
     setActiveIndex,
@@ -25,8 +24,6 @@ export class CurrencyOptions extends Component {
     }
 
     componentDidMount() {
-        this.props.fetchCurrencies();
-
         document.addEventListener('mousedown', this.handleClickOutside);
     }
 
@@ -103,7 +100,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    fetchCurrencies: () => dispatch(fetchCurrencies()),
     changeCurrentCurrency: currentCurrency =>
         dispatch(changeCurrentCurrency(currentCurrency)),
     setIsCurrenciesOpen: isOpen => dispatch(setIsCurrenciesOpen(isOpen)),

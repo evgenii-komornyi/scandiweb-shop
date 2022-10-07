@@ -11,6 +11,25 @@ export const GalleryContainer = styled.div`
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-start;
+    position: relative;
+    height: 100%;
+`;
+
+export const OutOfStockContainer = styled.div`
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.5);
+    color: #8d8f9a;
+    position: absolute;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+
+    & > h1 {
+        font-weight: 300;
+    }
 `;
 
 export const ThumbnailsContainer = styled.div`
@@ -27,28 +46,25 @@ export const ThumbnailCanvas = styled.div`
     padding: 1px;
 `;
 
-export const Thumbnail = styled.div`
-    width: 100%;
-    height: 70px;
-    background-image: ${({ image }) => `url(${image})`};
-    background-position: center;
-    background-size: cover;
-    box-shadow: ${({ currentIndex, index }) =>
-        currentIndex === index ? '0 0 10px rgba(0, 0, 0, 0.5)' : null};
+export const Thumbnail = styled.img`
+    max-width: 100%;
+    max-height: 100%;
 `;
 
 export const MainImageContainer = styled.div`
     display: flex;
-    align-items: center;
     width: 500px;
-    padding: 10px;
+    padding: 5px 0;
+    margin-left: 50px;
 
     img {
-        width: 100%;
+        max-width: 90%;
+        max-height: 90%;
     }
 `;
 
 export const ProductDescriptionContainer = styled.div`
+    width: 300px;
     color: #1d1f22;
 `;
 

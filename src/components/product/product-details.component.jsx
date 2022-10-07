@@ -15,6 +15,7 @@ import { checkForDuplicate } from '../../helpers/attributes.helper';
 
 import {
     ProductContainer,
+    OutOfStockContainer,
     GalleryContainer,
     ThumbnailsContainer,
     ThumbnailCanvas,
@@ -99,13 +100,17 @@ class ProductDetails extends Component {
                     <>
                         <ProductContainer key={product.id}>
                             <GalleryContainer>
+                                {!product.inStock && (
+                                    <OutOfStockContainer>
+                                        <h1>Out of stock</h1>
+                                    </OutOfStockContainer>
+                                )}{' '}
                                 <ThumbnailsContainer>
                                     {product.gallery.map((image, index) => (
                                         <ThumbnailCanvas key={index}>
                                             <Thumbnail
-                                                currentIndex={currentIndex}
-                                                index={index}
-                                                image={image}
+                                                src={image}
+                                                alt="thumbnail"
                                                 onClick={() =>
                                                     this.changeImage(index)
                                                 }

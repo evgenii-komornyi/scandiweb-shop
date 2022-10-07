@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Routes, Route } from 'react-router-dom';
 
 import { fetchCategories } from './redux/categories/categories.reducer';
+import { fetchCurrencies } from './redux/currencies/currencies.reducer';
 
 import MainPage from './pages/main-page/main-page';
 import CategoryPage from './pages/category-page/category-page';
@@ -15,10 +16,14 @@ import Spinner from './components/spinner/spinner.component';
 export class App extends Component {
     componentDidMount() {
         this.props.fetchCategories();
+        this.props.fetchCurrencies();
     }
 
     render() {
-        return this.props.categories.isLoaded ? (
+        const isCategoriesLoaded = this.props.categories.isLoaded;
+        const isCurrenciesLoaded = this.props.currencies.isLoaded;
+
+        return isCategoriesLoaded && isCurrenciesLoaded ? (
             <>
                 <Header />
                 <Routes>
@@ -39,9 +44,11 @@ export class App extends Component {
 
 const mapStateToProps = state => ({
     categories: state.categories,
+    currencies: state.currencies,
 });
 
 const mapDispatchToProps = dispatch => ({
+    fetchCurrencies: () => dispatch(fetchCurrencies()),
     fetchCategories: () => dispatch(fetchCategories()),
 });
 

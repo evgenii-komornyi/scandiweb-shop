@@ -18,9 +18,13 @@ const initialState = {
 export const fetchCurrencies = createAsyncThunk(
     'currencies/fetchCurrencies',
     async () => {
-        const response = await getCurrencies();
+        const {
+            data: {
+                data: { currencies },
+            },
+        } = await getCurrencies();
 
-        return response.data.data.currencies;
+        return currencies;
     }
 );
 
@@ -56,6 +60,11 @@ const reducer = createSlice({
             if (!state.isLoaded) {
                 state.isLoaded = true;
                 state.currencies = payload;
+
+                if (state.currentCurrency === null) {
+                    state.currentCurrency = state.currencies[0].label;
+                    saveToStorage('currentCurrency', state.currencies[0].label);
+                }
             }
         },
         [fetchCurrencies.rejected]: (state, action) => {
